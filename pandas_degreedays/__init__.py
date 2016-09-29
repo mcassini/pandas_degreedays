@@ -165,7 +165,7 @@ def inter_lin_nan(ts, rule):
     interpolates linearly NaN
     of time series ts
     """
-    ts = ts.resample(rule)
+    ts = ts.resample(rule).mean()
     mask = np.isnan(ts)
     # interpolling missing values
     ts[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), ts[~mask])
@@ -307,7 +307,7 @@ def calculate_dd(ts_temp, method='pro', typ='heating', Tref=18.0, group='yearly'
         df_degreedays.index.name = 'date'
         #print(df_degreedays.index)
         #print(type(df_degreedays.index[0]))
-        df_degreedays = df_degreedays.resample('1D')
+        df_degreedays = df_degreedays.resample('1D').mean()
 
         d_groups = {
             'yearly': yearly,
@@ -341,7 +341,7 @@ def plot_temp(ts_temp, df_degreedays):
     df_degreedays is a daily dataframe
     """
     fig, axes = plt.subplots(nrows=4, ncols=1)
-    ts_temp.resample('1H').plot(ax=axes[0])
+    ts_temp.resample('1H').mean().plot(ax=axes[0])
     df_degreedays[['Tmin', 'Tavg', 'Tmax', 'Tref']].plot(ax=axes[1], legend=False)
     df_degreedays['DD'].plot(ax=axes[2])
     #df_degreedays[['DJU', 'DJU_7']].plot(ax=axes[2])

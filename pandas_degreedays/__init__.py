@@ -323,7 +323,7 @@ def calculate_dd(ts_temp, method='pro', typ='heating', Tref=18.0, group='yearly'
             else:
                 group_col = str(group)
                 f_group_col = d_groups[group]
-                df_degreedays[group_col] = df_degreedays.index.map(f_group_col)
+                df_degreedays[group_col] = df_degreedays.index.to_series().map(f_group_col)
             df_degreedays['DD_cum'] = df_degreedays.groupby(group_col)['DD'].cumsum()
         else:
             df_degreedays['DD_cum'] = df_degreedays['DD'].cumsum()
